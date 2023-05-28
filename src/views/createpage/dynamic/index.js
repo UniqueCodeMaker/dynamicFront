@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { BreadcrumbItem, Button, Card, CardBody, Col, Form, Label, Row } from "reactstrap"
+import { Button, Card, CardBody, Col, Form, Label, Row } from "reactstrap"
 import { Editor } from 'react-draft-wysiwyg'
 import '@styles/react/libs/editor/editor.scss'
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -11,8 +11,7 @@ import { Check } from "react-feather"
 import Breadcrumbs from '@components/breadcrumbs'
 import Avatar from '@components/avatar'
 import { useParams } from 'react-router'
-import { Link } from "react-router-dom/cjs/react-router-dom"
-Link
+
 const ToastComponent = ({ title, icon, color }) => (
     <>
       <div className='toastify-header pb-0'>
@@ -152,11 +151,7 @@ const dynamic = () => {
             }    
         }, [pageData])
     return <>
-    <Breadcrumbs breadCrumbTitle='Manage Page' breadCrumbParent="page"  breadCrumbActive='Manage Page'>
-    <BreadcrumbItem>
-          <Link to='#'> Home </Link>
-        </BreadcrumbItem>
-    </Breadcrumbs>
+    <Breadcrumbs breadCrumbTitle='Manage Page' breadCrumbParent="page"  breadCrumbActive='Manage Page'/>
         <Card>
             <CardBody>
                 <Row>
