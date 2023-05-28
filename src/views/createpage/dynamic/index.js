@@ -11,6 +11,7 @@ import { Check } from "react-feather"
 import Breadcrumbs from '@components/breadcrumbs'
 import Avatar from '@components/avatar'
 import { useParams } from 'react-router'
+
 const ToastComponent = ({ title, icon, color }) => (
     <>
       <div className='toastify-header pb-0'>
@@ -27,6 +28,7 @@ const dynamic = () => {
     console.log("params", params.id)
     const [pageData, setpageData] = useState([])
     const [Selected, setselected] = useState({})
+    const [defaultCategory, setdefaultcategory] = useState("")
     const [imgUpload, setImgUpload] = useState(null) 
     const {
         register,
@@ -56,6 +58,7 @@ const dynamic = () => {
 
             if (response) {
                 reset()
+                setImgUpload("/placeholder.png")
                 setEditorState(() => EditorState.createEmpty())
                 toast.success(<ToastComponent title='Form Updated Successfully' color='success' icon={<Check />} />, {
                     icon: false,
@@ -83,8 +86,9 @@ const dynamic = () => {
             })
            
             if (response) {
-                reset()
+                // reset()
                 setEditorState(() => EditorState.createEmpty())
+                setImgUpload("/placeholder.png")
                 toast.success(<ToastComponent title='Form Submitted Successfully' color='success' icon={<Check />} />, {
                     icon: false,
                     autoClose: 2000,
@@ -104,8 +108,6 @@ const dynamic = () => {
     }
     const handleimgupload = () => {
       
-        // const x = document.getElementById("upload_image").files[0]
-        
         const fileInput = document.getElementById('upload_image')
         const file = fileInput.files[0]
       
@@ -143,8 +145,9 @@ const dynamic = () => {
                 })
                 console.log("mutated", mutated)
                 setselected(mutated[0])
-                // setEditorState(Selected.description)
-                // reset(mutated[0])
+                
+                setdefaultcategory(mutated[0].category)
+                setImgUpload(mutated[0].upload_image)
             }    
         }, [pageData])
     return <>
@@ -163,21 +166,21 @@ const dynamic = () => {
                         </Col>
                         <Col sm="12" className="mt-1">
                             <Label htmlFor="page_name">Page Name</Label>
-                            <input type="text" className="form-control" id="page_name" placeholder="Page Name" {...register('page_name')} defaultValue={Selected?.page_name}/>
+                            <input type="text" className="form-control" id="page_name" placeholder="Page Name" {...register('page_name', {required:true})} defaultValue={Selected?.page_name}/>
                         </Col>
                         <Col sm="12" className="mt-1">
                             <Label htmlFor="slug_url">Slug Url</Label>
-                            <div className="d-flex flex-row  align-items-center"><input id="slug_url" type="text" name="url" className="form-control " autoComplete="off" style={{ marginLeft: "3px", marginRight: "3px" }} placeholder="slug url" {...register('slug_url')} defaultValue={Selected?.slug_url} /><div className="urlError"><div className="invalid-feedback"></div></div></div>
+                            <div className="d-flex flex-row  align-items-center"><input id="slug_url" type="text" name="url" className="form-control " autoComplete="off" style={{ marginLeft: "3px", marginRight: "3px" }} placeholder="slug url" {...register('slug_url', {required:true})} defaultValue={Selected?.slug_url} /><div className="urlError"><div className="invalid-feedback"></div></div></div>
                         </Col>
                         <Col sm="12" className="mt-1">
                             <Label htmlFor="category">Category</Label>
-                            <select className="form-control" id="category" {...register('category')} defaultValue={Selected?.category}>
+                            <select className="form-control" id="category" {...register('category', {required:true})} value={defaultCategory} onChange={(e) => setdefaultcategory(e.target.value)}>
                                 <option value="">Select Category</option>
-                                <option value={1}>Technical Service</option>
-                                <option value={2}>Media Service</option>
-                                <option value={3}>Digital Service</option>
-                                <option value={4}>Online Service</option>
-                                <option value={5}>Other Services</option>
+                                <option value="1">Technical Service</option>
+                                <option value="2">Media Service</option>
+                                <option value="3">Digital Service</option>
+                                <option value="4">Online Service</option>
+                                <option value="5">Other Services</option>
 
                             </select>
                         </Col>
