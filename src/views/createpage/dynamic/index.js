@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Button, Card, CardBody, Col, Form, Label, Row } from "reactstrap"
 import { Editor } from 'react-draft-wysiwyg'
 import '@styles/react/libs/editor/editor.scss'
@@ -25,7 +25,8 @@ const ToastComponent = ({ title, icon, color }) => (
 const dynamic = () => {
     const params = useParams()
     console.log("params", params.id)
-   
+    const [pageData, setpageData] = useState([])
+    const [Selected, setselected] = useState({})
     const [imgUpload, setImgUpload] = useState(null) 
     const {
         register,
@@ -118,7 +119,34 @@ const dynamic = () => {
           reader.readAsDataURL(file)
         }
     }
+    const handlepagedata = async() => {
+    
+        await fetch('http://localhost:3030/test/serveall')
+         .then(response => response.json())
+         .then(data => {
+           setpageData(data.data)
+         })
+         .catch(err => console.error(err))
+       }
 
+    useEffect(() => {
+        if (params) {
+           handlepagedata()
+        }
+    }, [params.id])
+
+    useEffect(() => {
+        console.log(pageData, "pagedata")
+            if (pageData.length) {
+                const mutated = pageData.filter((data) => {
+                    return data._id === params.id
+                })
+                console.log("mutated", mutated)
+                setselected(mutated[0])
+                // setEditorState(Selected.description)
+                // reset(mutated[0])
+            }    
+        }, [pageData])
     return <>
     <Breadcrumbs breadCrumbTitle='Manage Page' breadCrumbParent="page"  breadCrumbActive='Manage Page'/>
         <Card>
@@ -131,19 +159,19 @@ const dynamic = () => {
                             <Label htmlFor="upload_image" className="btn btn-primary">
                                Upload Image
                             </Label>
-                            <input type="file"  id="upload_image" className="d-none" {...register('upload_image')} onChange={() => handleimgupload() }/>
+                            <input type="file"  id="upload_image" className="d-none" {...register('upload_image')} onChange={() => handleimgupload() } />
                         </Col>
                         <Col sm="12" className="mt-1">
                             <Label htmlFor="page_name">Page Name</Label>
-                            <input type="text" className="form-control" id="page_name" placeholder="Page Name" {...register('page_name')} />
+                            <input type="text" className="form-control" id="page_name" placeholder="Page Name" {...register('page_name')} defaultValue={Selected.page_name}/>
                         </Col>
                         <Col sm="12" className="mt-1">
                             <Label htmlFor="slug_url">Slug Url</Label>
-                            <div className="d-flex flex-row  align-items-center"><input id="slug_url" type="text" name="url" className="form-control " autoComplete="off" style={{ marginLeft: "3px", marginRight: "3px" }} placeholder="slug url" {...register('slug_url')} /><div className="urlError"><div className="invalid-feedback"></div></div></div>
+                            <div className="d-flex flex-row  align-items-center"><input id="slug_url" type="text" name="url" className="form-control " autoComplete="off" style={{ marginLeft: "3px", marginRight: "3px" }} placeholder="slug url" {...register('slug_url')} defaultValue={Selected.slug_url} /><div className="urlError"><div className="invalid-feedback"></div></div></div>
                         </Col>
                         <Col sm="12" className="mt-1">
                             <Label htmlFor="category">Category</Label>
-                            <select className="form-control" id="category" {...register('category')}>
+                            <select className="form-control" id="category" {...register('category')} defaultValue={Selected.category}>
                                 <option value="">Select Category</option>
                                 <option value={1}>Technical Service</option>
                                 <option value={2}>Media Service</option>

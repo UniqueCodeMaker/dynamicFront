@@ -70,6 +70,7 @@ const dynamicTable = () => {
       const response = await fetch(`http://localhost:3030/test/deletepage/${id}`)
       if (response) {
         console.log("response", response)
+        handlepagedata()
       }
     }
   // ** Function to handle Pagination and get data
@@ -142,9 +143,12 @@ const dynamicTable = () => {
     },
     {
       name: 'Slug',
-      // selector: 'unit_status',
-      // cell:(row) => <Badge color={row.unit_status === "Active" ? "light-success" : "light-danger"} className='mr-1'>{row.unit_status}</Badge>,
       cell:(row) => <span>{row.slug_url}</span>,
+      sortable: true
+    },
+    {
+      name: 'Category',
+      cell:(row) => <span>{row.category}</span>,
       sortable: true
     },
     {
