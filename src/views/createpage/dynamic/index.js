@@ -176,8 +176,8 @@ const dynamic = () => {
                                 <option value={1}>Technical Service</option>
                                 <option value={2}>Media Service</option>
                                 <option value={3}>Digital Service</option>
-                                <option value={3}>Online Service</option>
-                                <option value={3}>Other Services</option>
+                                <option value={4}>Online Service</option>
+                                <option value={5}>Other Services</option>
 
                             </select>
                         </Col>
