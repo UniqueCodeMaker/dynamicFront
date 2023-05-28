@@ -146,8 +146,8 @@ const dynamic = () => {
                 console.log("mutated", mutated)
                 setselected(mutated[0])
                 
-                setdefaultcategory(mutated[0].category)
-                setImgUpload(mutated[0].upload_image)
+                setdefaultcategory(mutated[0]?.category)
+                setImgUpload(mutated[0]?.upload_image)
             }    
         }, [pageData])
     return <>
