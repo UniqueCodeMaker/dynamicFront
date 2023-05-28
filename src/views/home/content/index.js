@@ -40,7 +40,7 @@ const HomeContent = () => {
     const Submit = async (data) => {
         const rawContentState = draftToHtml(convertToRaw(editorState.getCurrentContent()))
 
-        const response = await fetch('http://localhost:3030/test/serve', {
+        const response = await fetch('http://localhost:3030/test/home', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -118,7 +118,7 @@ const HomeContent = () => {
                             </div>
                         </Col>
                         <Col className="mt-1">
-                            <Button color="success" type="submit">Submit</Button>
+                            <Button color="success" type="submit">Save</Button>
                         </Col>
                     </Form>
                 </Row>
