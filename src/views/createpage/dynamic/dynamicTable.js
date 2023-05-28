@@ -148,7 +148,7 @@ const dynamicTable = () => {
     },
     {
       name: 'Category',
-      cell:(row) => <span>{row.category === 1 ? "Technical Services" : row.category === 1 ? "" : "" }</span>,
+      cell:(row) => <span>{row.category === "1" ? "Technical Services" : row.category === 1 ? "" : "" }</span>,
       sortable: true
     },
     {
