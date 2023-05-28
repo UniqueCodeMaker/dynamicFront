@@ -163,15 +163,15 @@ const dynamic = () => {
                         </Col>
                         <Col sm="12" className="mt-1">
                             <Label htmlFor="page_name">Page Name</Label>
-                            <input type="text" className="form-control" id="page_name" placeholder="Page Name" {...register('page_name')} defaultValue={Selected.page_name}/>
+                            <input type="text" className="form-control" id="page_name" placeholder="Page Name" {...register('page_name')} defaultValue={Selected?.page_name}/>
                         </Col>
                         <Col sm="12" className="mt-1">
                             <Label htmlFor="slug_url">Slug Url</Label>
-                            <div className="d-flex flex-row  align-items-center"><input id="slug_url" type="text" name="url" className="form-control " autoComplete="off" style={{ marginLeft: "3px", marginRight: "3px" }} placeholder="slug url" {...register('slug_url')} defaultValue={Selected.slug_url} /><div className="urlError"><div className="invalid-feedback"></div></div></div>
+                            <div className="d-flex flex-row  align-items-center"><input id="slug_url" type="text" name="url" className="form-control " autoComplete="off" style={{ marginLeft: "3px", marginRight: "3px" }} placeholder="slug url" {...register('slug_url')} defaultValue={Selected?.slug_url} /><div className="urlError"><div className="invalid-feedback"></div></div></div>
                         </Col>
                         <Col sm="12" className="mt-1">
                             <Label htmlFor="category">Category</Label>
-                            <select className="form-control" id="category" {...register('category')} defaultValue={Selected.category}>
+                            <select className="form-control" id="category" {...register('category')} defaultValue={Selected?.category}>
                                 <option value="">Select Category</option>
                                 <option value={1}>Technical Service</option>
                                 <option value={2}>Media Service</option>
