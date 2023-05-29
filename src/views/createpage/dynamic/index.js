@@ -26,16 +26,18 @@ const ToastComponent = ({ title, icon, color }) => (
 const dynamic = () => {
     const params = useParams()
     console.log("params", params.id)
+    
     const [pageData, setpageData] = useState([])
     const [Selected, setselected] = useState({})
     const [defaultCategory, setdefaultcategory] = useState("")
     const [imgUpload, setImgUpload] = useState(null) 
+    const [checkstate, setCheckstate] = useState(false)
     const {
         register,
         reset,
         handleSubmit,
         formState: { errors }
-    } = useForm({})
+    } = useForm({ mode: 'onSubmit' })
 
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
 
@@ -44,6 +46,7 @@ const dynamic = () => {
     }
     console.log("errors", errors)
     const Submit = async (data) => {
+        console.log("data", data)
         const rawContentState = draftToHtml(convertToRaw(editorState.getCurrentContent()))
 
         if (params && params.id) {
@@ -136,7 +139,11 @@ const dynamic = () => {
            handlepagedata()
         }
     }, [params.id])
-
+    useEffect(() => {
+        setTimeout(() => {
+            setCheckstate(!checkstate)
+        }, 2000)
+    }, [])
     useEffect(() => {
         console.log(pageData, "pagedata")
             if (pageData.length) {
@@ -166,15 +173,15 @@ const dynamic = () => {
                         </Col>
                         <Col sm="12" className="mt-1">
                             <Label htmlFor="page_name">Page Name</Label>
-                            <input type="text" className="form-control" id="page_name" placeholder="Page Name" {...register('page_name', {required:true})} defaultValue={Selected?.page_name}/>
+                            <input type="text" className="form-control" id="page_name" placeholder="Page Name" {...register('page_name', {required:false})} value={Selected?.page_name} name="page_name"/>
                         </Col>
                         <Col sm="12" className="mt-1">
                             <Label htmlFor="slug_url">Slug Url</Label>
-                            <div className="d-flex flex-row  align-items-center"><input id="slug_url" type="text" name="url" className="form-control " autoComplete="off" style={{ marginLeft: "3px", marginRight: "3px" }} placeholder="slug url" {...register('slug_url', {required:true})} defaultValue={Selected?.slug_url} /><div className="urlError"><div className="invalid-feedback"></div></div></div>
+                            <div className="d-flex flex-row  align-items-center"><input id="slug_url" type="text" name="slug_url" className="form-control " autoComplete="off" style={{ marginLeft: "3px", marginRight: "3px" }} placeholder="slug url" {...register('slug_url', {required:false})} value={Selected?.slug_url}/><div className="urlError"><div className="invalid-feedback"></div></div></div>
                         </Col>
                         <Col sm="12" className="mt-1">
                             <Label htmlFor="category">Category</Label>
-                            <select className="form-control" id="category" {...register('category', {required:true})} value={defaultCategory} onChange={(e) => setdefaultcategory(e.target.value)}>
+                            <select className="form-control" id="category" {...register('category', {required:false})} value={defaultCategory} onChange={(e) => setdefaultcategory(e.target.value)} name="category">
                                 <option value="">Select Category</option>
                                 <option value="1">Technical Service</option>
                                 <option value="2">Media Service</option>
